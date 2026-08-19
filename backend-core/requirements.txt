@@ -1,0 +1,8 @@
+Django
+djangorestframework
+djangorestframework-simplejwt
+mysqlclient
+django-filter
+drf-spectacular
+python-decouple
+gunicorn
