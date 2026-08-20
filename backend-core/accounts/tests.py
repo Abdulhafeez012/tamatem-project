@@ -167,7 +167,7 @@ class LoginTests(APITestCase):
     def test_login_unexpected_error_returns_500(self):
         client = self.client_class(raise_request_exception=False)
         with patch(
-            "rest_framework_simplejwt.views.TokenObtainPairView.post",
+            "accounts.serializers.LoginSerializer.validate",
             side_effect=RuntimeError("db unavailable"),
         ):
             response = client.post(

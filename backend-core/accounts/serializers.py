@@ -14,6 +14,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ("id", "username", "email")
 
+class RegisterResponseSerializer(serializers.Serializer):
+    user = UserSerializer()
+    access = serializers.CharField()
+    refresh = serializers.CharField()
 
 class RegisterSerializer(serializers.ModelSerializer):
     """
@@ -24,8 +28,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "username", "email", "password", "confirm_password")
-        read_only_fields = ("id",)
+        fields = ("username", "email", "password", "confirm_password")
 
     def validate_email(self, value):
         if value and User.objects.filter(email__iexact=value).exists():
@@ -44,7 +47,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
-
 
 class LoginSerializer(TokenObtainPairSerializer):
     """
