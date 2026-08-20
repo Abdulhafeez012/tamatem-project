@@ -41,19 +41,19 @@ logs:
 	$(COMPOSE) logs -f
 
 migrate:
-	$(COMPOSE) exec app python manage.py migrate
+	$(COMPOSE) exec app uv run  python manage.py migrate
 
 makemigrations:
-	$(COMPOSE) exec app python manage.py makemigrations
+	$(COMPOSE) exec app uv run python manage.py makemigrations
 
 shell:
-	$(COMPOSE) exec app python manage.py shell
+	$(COMPOSE) exec app uv run python manage.py shell
 
 check:
-	$(COMPOSE) exec app python manage.py check
+	$(COMPOSE) exec app uv run python manage.py check
 
 test:
-	$(COMPOSE) exec app python manage.py test
+	$(COMPOSE) exec app uv run python manage.py test
 
 clean:
 	$(COMPOSE) down -v --remove-orphans
