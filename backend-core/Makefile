@@ -18,6 +18,7 @@ help:
 	@echo "  make check           Run Django checks"
 	@echo "  make test            Run tests"
 	@echo "  make clean           Remove containers and volumes"
+	@echo "  make test-coverage   Run tests with coverage"
 
 build-no-cache:
 	$(COMPOSE) build --no-cache
@@ -54,6 +55,10 @@ check:
 
 test:
 	$(COMPOSE) exec app uv run python manage.py test
+
+test-coverage:
+	$(COMPOSE) exec app uv run python -m coverage run manage.py test
+	$(COMPOSE) exec app uv run python -m coverage report -m
 
 clean:
 	$(COMPOSE) down -v --remove-orphans

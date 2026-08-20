@@ -1,3 +1,11 @@
 .env
-.venv/*
+.venv/
 .python-version
+__pycache__/
+*.py[cod]
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json

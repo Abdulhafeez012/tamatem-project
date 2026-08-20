@@ -1,0 +1,14 @@
+.git
+.gitignore
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+Dockerfile
+README.md
