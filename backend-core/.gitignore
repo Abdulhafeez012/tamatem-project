@@ -11,3 +11,4 @@ htmlcov/
 .dmypy.json
 *.xml
 .idea
+.DS_Store
