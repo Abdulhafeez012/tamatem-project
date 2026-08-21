@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     # Project APPS
     'accounts',
+    'api',
     'orders',
     'products',
 

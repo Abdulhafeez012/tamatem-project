@@ -1,6 +1,6 @@
 from django.urls import path
 
-from orders.views import (
+from api.v1.orders.views import (
     PurchaseView,
     ReceiptView
 )

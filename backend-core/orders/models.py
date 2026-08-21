@@ -42,7 +42,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=20,
         choices=OrderStatus.choices(),
-        default=OrderStatus.PENDING.value,
+        default=OrderStatus.COMPLETED.value,
     )
     created_at = models.DateTimeField(auto_now_add=True)
 

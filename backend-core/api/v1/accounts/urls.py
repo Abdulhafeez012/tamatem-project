@@ -1,6 +1,10 @@
 from django.urls import path
 
-from accounts.views import LoginView, RefreshView, RegisterView
+from api.v1.accounts.views import (
+    LoginView,
+    RefreshView,
+    RegisterView
+)
 
 app_name = "accounts"
 

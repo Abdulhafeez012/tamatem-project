@@ -7,12 +7,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from accounts.serializers import (
+from api.v1.accounts.serializers import (
     LoginSerializer,
     RegisterResponseSerializer,
     RegisterSerializer,
 )
-from accounts.swagger_schemas import (
+from api.v1.accounts.swagger_schemas import (
     LOGIN_SWAGGER_DECORATOR,
     REFRESH_SWAGGER_DECORATOR,
     REGISTER_SWAGGER_DECORATOR,

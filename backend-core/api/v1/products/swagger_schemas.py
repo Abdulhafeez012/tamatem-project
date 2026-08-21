@@ -2,7 +2,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 
-from products.serializers import ProductSerializer
+from api.v1.products.serializers import ProductSerializer
 
 PRODUCT_SCHEMA = openapi.Schema(
     type=openapi.TYPE_OBJECT,

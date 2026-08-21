@@ -7,8 +7,8 @@ from rest_framework.response import Response
 
 from products.models import Product
 from orders.models import Order
-from orders.serializers import OrderSerializer, PurchaseRequestSerializer
-from orders.swagger_schemas import (
+from api.v1.orders.serializers import OrderSerializer, PurchaseRequestSerializer
+from api.v1.orders.swagger_schemas import (
     PURCHASE_SWAGGER_DECORATOR,
     RECEIPT_SWAGGER_DECORATOR
 )

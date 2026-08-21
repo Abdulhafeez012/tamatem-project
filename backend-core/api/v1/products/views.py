@@ -4,11 +4,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
 from rest_framework.exceptions import NotFound
 
-from products.filters import ProductFilter
+from api.v1.products.filters import ProductFilter
 from products.models import Product
-from products.pagination import ProductPagination
-from products.serializers import ProductSerializer
-from products.swagger_schemas import (
+from api.v1.products.pagination import ProductPagination
+from api.v1.products.serializers import ProductSerializer
+from api.v1.products.swagger_schemas import (
     PRODUCT_DETAIL_SWAGGER_DECORATOR,
     PRODUCT_LIST_SWAGGER_DECORATOR,
 )
