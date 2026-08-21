@@ -44,18 +44,12 @@ class RegisterView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
 
         try:
-            # User creation + token issuance succeed or fail together --
-            # if token generation blows up, the user row is rolled back
-            # instead of silently existing behind a 500 response.
             with transaction.atomic():
                 user = serializer.save()
                 refresh = RefreshToken.for_user(user)
                 access_token = str(refresh.access_token)
                 refresh_token = str(refresh)
         except IntegrityError:
-            # Covers a race where two requests with the same username/email
-            # land at (almost) the same time and both pass serializer
-            # validation before either commits.
             return Response(
                 {"detail": "A user with these credentials already exists."},
                 status=status.HTTP_409_CONFLICT,

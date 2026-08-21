@@ -15,6 +15,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("id", "username", "email")
 
 class RegisterResponseSerializer(serializers.Serializer):
+    """
+    Serializer for the register response.
+    """
     user = UserSerializer()
     access = serializers.CharField()
     refresh = serializers.CharField()
