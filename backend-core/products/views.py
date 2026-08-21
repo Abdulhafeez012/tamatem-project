@@ -1,6 +1,8 @@
+from django.http import Http404
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
+from rest_framework.exceptions import NotFound
 
 from products.filters import ProductFilter
 from products.models import Product
@@ -45,3 +47,9 @@ class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.order_by("id")
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self) :
+        try:
+            return super().get_object()
+        except Http404:
+            raise NotFound({"detail": "Product not found."})

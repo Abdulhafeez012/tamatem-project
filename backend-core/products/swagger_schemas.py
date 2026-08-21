@@ -215,7 +215,7 @@ PRODUCT_DETAIL_SWAGGER_DECORATOR = swagger_auto_schema(
             schema=DETAIL_ERROR_SCHEMA,
             examples={
                 "application/json": {
-                    "detail": "No Product matches the given query.",
+                    "detail": "Product not found.",
                 }
             },
         ),
