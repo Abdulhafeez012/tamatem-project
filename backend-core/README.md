@@ -86,36 +86,6 @@ partial indexes, so a `condition=` would not build there. It does not need one:
 both MySQL and SQLite treat `NULL`s as distinct in a unique index, so a user can
 still have any number of key-less orders.
 
-Five decisions worth defending:
-
-- **`PROTECT` on both foreign keys.** An order must never end up without a buyer
-  or without an item. `CASCADE` would make deleting a product quietly destroy
-  the record that someone paid for it, and `SET_NULL` would leave a receipt
-  pointing at nothing. `PROTECT` refuses the delete instead, which is the honest
-  answer for a financial record.
-- **Prices are copied onto the order.** `unit_price` and `total_price` are
-  written from `product.price` at purchase time rather than read through the
-  foreign key. Editing a product tomorrow cannot rewrite what a customer was
-  charged yesterday.
-- **`order_number` is a UUID.** Receipt URLs are handed out, and a sequential id
-  would let anyone walk the range. Combined with the per-user queryset scoping,
-  a receipt is neither guessable nor readable by the wrong account.
-- **`quantity` is server-side.** It is nullable only because the column was
-  added ahead of a real cart; the API never accepts it from a client.
-- **Idempotency is enforced by the database.** A view-level check cannot stop
-  two concurrent retries from both inserting. The unique constraint can, and the
-  view's job is only to turn the resulting `IntegrityError` into the original
-  order.
-
-`status` is one of `PENDING | COMPLETED | FAILED`. Orders are created
-**`COMPLETED`** because a purchase settles synchronously — there is no payment
-step to be pending on. The other two values exist for when there is one.
-
-`accounts/` defines **no model**. `AUTH_USER_MODEL` is left at Django's built-in
-`auth.User`, so the table is `auth_user`. Swapping in a custom user model after
-the first migration is painful, and nothing here needs a field Django doesn't
-already provide.
-
 ---
 
 ## Architecture
