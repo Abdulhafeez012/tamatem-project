@@ -51,6 +51,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class LogoutSerializer(serializers.Serializer):
+    """
+    Serializer for the logout view.
+
+    Takes the refresh token to revoke. The access token cannot be revoked --
+    simplejwt's blacklist tracks refresh tokens only -- so it stays valid until
+    it expires. Revoking the refresh token is what stops the session being
+    extended past that point.
+    """
+
+    refresh = serializers.CharField(
+        write_only=True,
+        error_messages={
+            "required": "Refresh token is required.",
+            "blank": "Refresh token is required.",
+        },
+    )
+
+
 class LoginSerializer(TokenObtainPairSerializer):
     """
     Serializer for the login view.

@@ -103,15 +103,37 @@ REFRESH_REQUEST_SCHEMA = openapi.Schema(
 
 REFRESH_RESPONSE_SCHEMA = openapi.Schema(
     type=openapi.TYPE_OBJECT,
-    required=["access"],
+    required=["access", "refresh"],
     properties={
         "access": openapi.Schema(
             type=openapi.TYPE_STRING,
             example="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.new-access-token",
         ),
+        # ROTATE_REFRESH_TOKENS is on, so a rotated refresh token comes back
+        # too and the token that was spent is blacklisted. A client that keeps
+        # using the old one will be rejected.
+        "refresh": openapi.Schema(
+            type=openapi.TYPE_STRING,
+            example="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.rotated-refresh-token",
+        ),
     },
     example={
         "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.new-access-token",
+        "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.rotated-refresh-token",
+    },
+)
+
+LOGOUT_REQUEST_SCHEMA = openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    required=["refresh"],
+    properties={
+        "refresh": openapi.Schema(
+            type=openapi.TYPE_STRING,
+            example="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refresh-token",
+        ),
+    },
+    example={
+        "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refresh-token",
     },
 )
 
@@ -239,15 +261,64 @@ REFRESH_SWAGGER_DECORATOR = swagger_auto_schema(
             examples={
                 "application/json": {
                     "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.new-access-token",
+                    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.rotated-refresh-token",
                 }
             },
         ),
         status.HTTP_401_UNAUTHORIZED: openapi.Response(
-            description="Invalid or expired refresh token",
+            description="Invalid, expired or blacklisted refresh token",
             schema=DETAIL_ERROR_SCHEMA,
             examples={
                 "application/json": {
                     "detail": "Token is invalid or expired",
+                }
+            },
+        ),
+    },
+)
+
+LOGOUT_SWAGGER_DECORATOR = swagger_auto_schema(
+    tags=["Auth"],
+    security=[{"Bearer": []}],
+    operation_summary="Log out and revoke a refresh token",
+    operation_description=(
+        "Blacklists the supplied refresh token so it can no longer be exchanged "
+        "for a new access token. Requires the access token of the same user the "
+        "refresh token was issued to.\n\n"
+        "The access token itself is not revoked -- simplejwt's blacklist tracks "
+        "refresh tokens only -- so it stays usable until it expires (at most 30 "
+        "minutes). Revoking the refresh token is what stops the session being "
+        "extended beyond that."
+    ),
+    request_body=LOGOUT_REQUEST_SCHEMA,
+    responses={
+        status.HTTP_204_NO_CONTENT: openapi.Response(
+            description="Refresh token revoked; no body returned",
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description="Missing, malformed, expired or already-revoked token",
+            schema=DETAIL_ERROR_SCHEMA,
+            examples={
+                "application/json": {
+                    "detail": "Token is invalid or expired.",
+                }
+            },
+        ),
+        status.HTTP_401_UNAUTHORIZED: openapi.Response(
+            description="Missing or invalid access token",
+            schema=DETAIL_ERROR_SCHEMA,
+            examples={
+                "application/json": {
+                    "detail": "Authentication credentials were not provided.",
+                }
+            },
+        ),
+        status.HTTP_403_FORBIDDEN: openapi.Response(
+            description="The refresh token belongs to a different user",
+            schema=DETAIL_ERROR_SCHEMA,
+            examples={
+                "application/json": {
+                    "detail": "Token does not belong to the authenticated user.",
                 }
             },
         ),

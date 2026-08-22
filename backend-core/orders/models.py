@@ -44,10 +44,26 @@ class Order(models.Model):
         choices=OrderStatus.choices(),
         default=OrderStatus.COMPLETED.value,
     )
+    idempotency_key = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=(
+            "Client-supplied Idempotency-Key header. Scoped per user, so a "
+            "retried purchase returns the original order instead of creating "
+            "a second one. Null for requests that sent no key."
+        ),
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "idempotency_key"],
+                name="uniq_order_user_idempotency_key",
+            ),
+        ]
 
     def __str__(self):
         return f"Order {self.order_number} - {self.product.title}"

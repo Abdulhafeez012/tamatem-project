@@ -45,7 +45,8 @@ ORDER_SCHEMA = openapi.Schema(
     properties={
         "order_number": openapi.Schema(
             type=openapi.TYPE_STRING,
-            example="ORD-20260821-0001",
+            format=openapi.FORMAT_UUID,
+            example="3f6b1a5e-9c42-4b7d-8e10-2a5f6c8d1b39",
         ),
         "product": PRODUCT_SCHEMA,
         "quantity": openapi.Schema(
@@ -62,7 +63,7 @@ ORDER_SCHEMA = openapi.Schema(
         ),
         "status": openapi.Schema(
             type=openapi.TYPE_STRING,
-            example="PENDING",
+            example="COMPLETED",
         ),
         "created_at": openapi.Schema(
             type=openapi.TYPE_STRING,
@@ -71,7 +72,7 @@ ORDER_SCHEMA = openapi.Schema(
         ),
     },
     example={
-        "order_number": "ORD-20260821-0001",
+        "order_number": "3f6b1a5e-9c42-4b7d-8e10-2a5f6c8d1b39",
         "product": {
             "id": 1,
             "title": "PlayStation 5",
@@ -82,7 +83,7 @@ ORDER_SCHEMA = openapi.Schema(
         "quantity": 1,
         "unit_price": "499.99",
         "total_price": "499.99",
-        "status": "PENDING",
+        "status": "COMPLETED",
         "created_at": "2026-08-21T10:30:00Z",
     },
 )
@@ -123,9 +124,25 @@ PURCHASE_VALIDATION_ERROR_SCHEMA = openapi.Schema(
     },
     example={
         "product_id": [
-            "Ensure this value is greater than or equal to 1."
+            "Product ID must be greater than or equal to 1."
         ],
     },
+)
+
+
+IDEMPOTENCY_KEY_PARAMETER = openapi.Parameter(
+    "Idempotency-Key",
+    openapi.IN_HEADER,
+    description=(
+        "**Required.** A unique value per purchase attempt -- a UUID is the "
+        "obvious choice. Reuse the same value when retrying: the repeat returns "
+        "the order the first call created (200, with an `Idempotent-Replay: "
+        "true` header) instead of placing a second one. Keys are scoped per "
+        "user and may be at most 255 characters. A new, intentional purchase "
+        "needs a new key."
+    ),
+    type=openapi.TYPE_STRING,
+    required=True,
 )
 
 
@@ -136,16 +153,28 @@ PURCHASE_SWAGGER_DECORATOR = swagger_auto_schema(
     operation_description=(
         "Creates a new order for the authenticated user. "
         "The order quantity is currently fixed at 1, and the product's "
-        "current price is saved as the unit and total price."
+        "current price is saved as the unit and total price.\n\n"
+        "An `Idempotency-Key` header is **required**, which makes every purchase "
+        "retry-safe by construction: a repeat with the same key returns `200` "
+        "with the original order rather than creating a duplicate. A request "
+        "without the header is rejected with `400`."
     ),
     request_body=PurchaseRequestSerializer,
+    manual_parameters=[IDEMPOTENCY_KEY_PARAMETER],
     responses={
+        status.HTTP_200_OK: openapi.Response(
+            description=(
+                "Replay: an order already exists for this Idempotency-Key, and "
+                "is returned unchanged. Carries `Idempotent-Replay: true`."
+            ),
+            schema=ORDER_SCHEMA,
+        ),
         status.HTTP_201_CREATED: openapi.Response(
             description="Order created successfully",
             schema=ORDER_SCHEMA,
             examples={
                 "application/json": {
-                    "order_number": "ORD-20260821-0001",
+                    "order_number": "3f6b1a5e-9c42-4b7d-8e10-2a5f6c8d1b39",
                     "product": {
                         "id": 1,
                         "title": "PlayStation 5",
@@ -158,20 +187,30 @@ PURCHASE_SWAGGER_DECORATOR = swagger_auto_schema(
                     "quantity": 1,
                     "unit_price": "499.99",
                     "total_price": "499.99",
-                    "status": "PENDING",
+                    "status": "COMPLETED",
                     "created_at": "2026-08-21T10:30:00Z",
                 }
             },
         ),
         status.HTTP_400_BAD_REQUEST: openapi.Response(
-            description="Invalid purchase request",
+            description=(
+                "Invalid purchase request, or a missing / over-long "
+                "Idempotency-Key header"
+            ),
             schema=PURCHASE_VALIDATION_ERROR_SCHEMA,
             examples={
                 "application/json": {
                     "product_id": [
-                        "Ensure this value is greater than or equal to 1."
+                        "Product ID must be greater than or equal to 1."
                     ]
-                }
+                },
+                "application/json (missing header)": {
+                    "detail": (
+                        "Idempotency-Key header is required. Send a unique "
+                        "value per purchase attempt (a UUID is the obvious "
+                        "choice) and reuse it when retrying."
+                    )
+                },
             },
         ),
         status.HTTP_401_UNAUTHORIZED: openapi.Response(
@@ -210,10 +249,14 @@ RECEIPT_SWAGGER_DECORATOR = swagger_auto_schema(
         openapi.Parameter(
             "order_number",
             openapi.IN_PATH,
-            description="The unique order number.",
+            description=(
+                "The order's UUID. The route uses a <uuid:...> converter, so "
+                "a non-UUID value does not match the URL at all."
+            ),
             type=openapi.TYPE_STRING,
+            format=openapi.FORMAT_UUID,
             required=True,
-            example="ORD-20260821-0001",
+            example="3f6b1a5e-9c42-4b7d-8e10-2a5f6c8d1b39",
         ),
     ],
     responses={
@@ -222,7 +265,7 @@ RECEIPT_SWAGGER_DECORATOR = swagger_auto_schema(
             schema=ORDER_SCHEMA,
             examples={
                 "application/json": {
-                    "order_number": "ORD-20260821-0001",
+                    "order_number": "3f6b1a5e-9c42-4b7d-8e10-2a5f6c8d1b39",
                     "product": {
                         "id": 1,
                         "title": "PlayStation 5",
@@ -235,7 +278,7 @@ RECEIPT_SWAGGER_DECORATOR = swagger_auto_schema(
                     "quantity": 1,
                     "unit_price": "499.99",
                     "total_price": "499.99",
-                    "status": "PENDING",
+                    "status": "COMPLETED",
                     "created_at": "2026-08-21T10:30:00Z",
                 }
             },

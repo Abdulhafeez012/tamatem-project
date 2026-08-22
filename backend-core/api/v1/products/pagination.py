@@ -4,7 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 class ProductPagination(PageNumberPagination):
     """
     Defaults: page 1, 10 items per page.
-    Client can override page size with ?page_size=, capped at 50 to avoid
+    Client can override page size with ?page_size=, capped at 20 to avoid
     someone requesting the entire catalog in one request.
     """
 

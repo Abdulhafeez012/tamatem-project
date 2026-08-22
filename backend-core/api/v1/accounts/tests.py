@@ -5,6 +5,8 @@ from django.db import IntegrityError
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
@@ -85,7 +87,7 @@ class SignupTests(APITestCase):
         # validation before either commits -- the DB-level unique constraint
         # is what actually catches it, surfaced as a clean 409.
         with patch(
-            "accounts.serializers.RegisterSerializer.create",
+            "api.v1.accounts.serializers.RegisterSerializer.create",
             side_effect=IntegrityError,
         ):
             response = self.client.post(self.url, self.valid_payload(), format="json")
@@ -95,10 +97,10 @@ class SignupTests(APITestCase):
 
     def test_signup_unexpected_error_returns_clean_500(self):
         with patch(
-            "accounts.views.RefreshToken.for_user",
+            "api.v1.accounts.views.RefreshToken.for_user",
             side_effect=RuntimeError("token service unavailable"),
         ):
-            with self.assertLogs("accounts.views", level="ERROR") as logs:
+            with self.assertLogs("api.v1.accounts.views", level="ERROR") as logs:
                 response = self.client.post(self.url, self.valid_payload(), format="json")
 
         self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -167,7 +169,7 @@ class LoginTests(APITestCase):
     def test_login_unexpected_error_returns_500(self):
         client = self.client_class(raise_request_exception=False)
         with patch(
-            "accounts.serializers.LoginSerializer.validate",
+            "api.v1.accounts.serializers.LoginSerializer.validate",
             side_effect=RuntimeError("db unavailable"),
         ):
             response = client.post(
@@ -175,3 +177,131 @@ class LoginTests(APITestCase):
             )
 
         self.assertEqual(response.status_code, 500)
+
+
+class LogoutTests(APITestCase):
+    """
+    Logout has to actually revoke, not just ask the client to forget. Each test
+    that claims a token is dead proves it by trying to refresh with it.
+    """
+
+    url = reverse("accounts:logout")
+    refresh_url = reverse("accounts:login-refresh")
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="aboud", email="aboud@example.com", password="Str0ngPass!23"
+        )
+        self.other_user = User.objects.create_user(
+            username="other", email="other@example.com", password="Str0ngPass!23"
+        )
+
+    def tokens_for(self, user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh), str(refresh.access_token)
+
+    def test_logout_revokes_the_refresh_token(self):
+        refresh, _ = self.tokens_for(self.user)
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(self.url, {"refresh": refresh}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # The token is genuinely dead, not merely forgotten client-side.
+        replay = self.client.post(
+            self.refresh_url, {"refresh": refresh}, format="json"
+        )
+        self.assertEqual(replay.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_logout_records_the_token_as_blacklisted(self):
+        refresh, _ = self.tokens_for(self.user)
+        self.client.force_authenticate(user=self.user)
+
+        self.client.post(self.url, {"refresh": refresh}, format="json")
+
+        self.assertEqual(BlacklistedToken.objects.count(), 1)
+        self.assertEqual(
+            BlacklistedToken.objects.get().token.user_id, self.user.id
+        )
+
+    def test_logout_twice_returns_400(self):
+        refresh, _ = self.tokens_for(self.user)
+        self.client.force_authenticate(user=self.user)
+        self.client.post(self.url, {"refresh": refresh}, format="json")
+
+        response = self.client.post(self.url, {"refresh": refresh}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"], "Token is invalid or expired.")
+
+    def test_logout_requires_authentication(self):
+        refresh, _ = self.tokens_for(self.user)
+
+        response = self.client.post(self.url, {"refresh": refresh}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(BlacklistedToken.objects.count(), 0)
+
+    def test_logout_cannot_revoke_another_users_token(self):
+        # Without the ownership check this would be a trivial way to sign other
+        # people out.
+        other_refresh, _ = self.tokens_for(self.other_user)
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(
+            self.url, {"refresh": other_refresh}, format="json"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(BlacklistedToken.objects.count(), 0)
+
+        # And the victim's token still works.
+        still_valid = self.client.post(
+            self.refresh_url, {"refresh": other_refresh}, format="json"
+        )
+        self.assertEqual(still_valid.status_code, status.HTTP_200_OK)
+
+    def test_logout_missing_refresh_returns_400(self):
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(self.url, {}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("refresh", response.data)
+
+    def test_logout_malformed_token_returns_400(self):
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(
+            self.url, {"refresh": "not-a-jwt"}, format="json"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["detail"], "Token is invalid or expired.")
+
+    def test_logout_rejects_an_access_token(self):
+        # Posting the access token by mistake must not silently succeed.
+        _, access = self.tokens_for(self.user)
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(self.url, {"refresh": access}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_rotation_blacklists_the_spent_refresh_token(self):
+        # ROTATE_REFRESH_TOKENS + BLACKLIST_AFTER_ROTATION: refreshing returns a
+        # new refresh token and retires the one that was used.
+        refresh, _ = self.tokens_for(self.user)
+
+        rotated = self.client.post(
+            self.refresh_url, {"refresh": refresh}, format="json"
+        )
+        self.assertEqual(rotated.status_code, status.HTTP_200_OK)
+        self.assertIn("refresh", rotated.data)
+        self.assertNotEqual(rotated.data["refresh"], refresh)
+
+        reuse = self.client.post(
+            self.refresh_url, {"refresh": refresh}, format="json"
+        )
+        self.assertEqual(reuse.status_code, status.HTTP_401_UNAUTHORIZED)

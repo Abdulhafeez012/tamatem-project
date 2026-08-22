@@ -16,6 +16,8 @@ from datetime import timedelta
 import os
 import dotenv
 
+from corsheaders.defaults import default_headers
+
 dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -57,6 +59,7 @@ INSTALLED_APPS = [
     # Third-Party packages
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "django_filters",
     "corsheaders",
@@ -176,6 +179,10 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(minutes=60),
     "ROTATE_REFRESH_TOKENS": True,
+    # Explicit rather than relying on the default: rotation must retire the
+    # token it consumed, otherwise a leaked refresh token stays usable for the
+    # rest of its 60 minutes even after the legitimate client has moved on.
+    "BLACKLIST_AFTER_ROTATION": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
@@ -196,4 +203,19 @@ SWAGGER_SETTINGS = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+]
+
+# A non-standard request header makes the browser send a CORS preflight, and the
+# preflight fails unless the header is named here. django-cors-headers' defaults
+# do not include Idempotency-Key, so without this the purchase request never
+# leaves the browser -- while curl, which does no preflight, works fine.
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "idempotency-key",
+)
+
+# Response headers are invisible to JavaScript unless explicitly exposed, so a
+# client cannot otherwise tell a replay from a fresh purchase.
+CORS_EXPOSE_HEADERS = [
+    "Idempotent-Replay",
 ]
