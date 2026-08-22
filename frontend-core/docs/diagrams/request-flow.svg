@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 -60 880 1154.75" width="880" height="1155" role="img" aria-label="A request travelling from the browser through AuthGuard, the page component, useApi, AuthProvider.request and apiRequest to the Django API, with the 401 refresh-and-replay branch alongside.">
+<title>A request travelling from the browser through AuthGuard, the page component, useApi, AuthProvider.request and apiRequest to the Django API, with the 401 refresh-and-replay branch alongside.</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke"/></marker></defs>
+<rect x="10" y="-60" width="880" height="1154.75" fill="#ffffff"/>
+<text x="38" y="-20" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e">frontend-core — request / response flow</text>
+<rect x="38" y="12" width="374" height="944" rx="10" fill="none" stroke="#868e96" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="50" y="32" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#868e96">happy path</text>
+<rect x="478" y="360" width="384" height="596" rx="10" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="490" y="380" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#e03131">401 handling — lib/auth.tsx</text>
+<rect x="60" y="60" width="330" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="225" y="86.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">Browser</text>
+<text x="225" y="110.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">opens /products?page=2</text>
+<rect x="60" y="176" width="330" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="225" y="202.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">AuthGuard</text>
+<text x="225" y="226.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">app/(protected)/layout.tsx</text>
+<rect x="60" y="292" width="330" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="225" y="318.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">products-view.tsx</text>
+<text x="225" y="342.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">reads ?page= and ?location=</text>
+<rect x="60" y="408" width="330" height="62" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="225" y="434.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">useApi(fetcher, deps)</text>
+<text x="225" y="458.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">lib/use-api.ts — aborts on unmount</text>
+<rect x="60" y="524" width="330" height="62" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="225" y="550.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">AuthProvider.request()</text>
+<text x="225" y="574.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">lib/auth.tsx — adds the Bearer header</text>
+<rect x="60" y="640" width="330" height="62" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="225" y="666.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">apiRequest()</text>
+<text x="225" y="690.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">lib/api.ts — + /api/v1, parses body</text>
+<rect x="60" y="756" width="330" height="62" rx="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="225" y="782.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">Django API</text>
+<text x="225" y="806.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">GET /api/v1/products/</text>
+<rect x="60" y="872" width="330" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="225" y="898.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">ProductGrid renders</text>
+<text x="225" y="922.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">12 cards + PaginationControls</text>
+<rect x="500" y="408" width="340" height="62" rx="8" fill="#ffc9c9" stroke="#e03131" stroke-width="2"/>
+<text x="670" y="434.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">doRefresh()</text>
+<text x="670" y="458.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">single-flight across concurrent 401s</text>
+<rect x="500" y="524" width="340" height="62" rx="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="670" y="550.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">POST /auth/login/refresh/</text>
+<text x="670" y="574.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">returns access + rotated refresh</text>
+<rect x="500" y="640" width="340" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="670" y="666.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">save(), then replay once</text>
+<text x="670" y="690.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">same request, new access token</text>
+<rect x="500" y="756" width="340" height="62" rx="8" fill="#ffc9c9" stroke="#e03131" stroke-width="2"/>
+<text x="670" y="782.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">save(null) → 'anonymous'</text>
+<text x="670" y="806.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">the refresh was rejected</text>
+<rect x="500" y="872" width="340" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="670" y="898.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">/login?next=…</text>
+<text x="670" y="922.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">AuthGuard redirects</text>
+<path d="M 225 122 L 225 176" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="236" y="133.75" width="115.2" height="16.25" fill="#ffffff"/>
+<text x="239" y="145.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">status must be</text>
+<rect x="236" y="150" width="123" height="16.25" fill="#ffffff"/>
+<text x="239" y="162" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">"authenticated"</text>
+<path d="M 225 238 L 225 292" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="236" y="249.75" width="154.2" height="16.25" fill="#ffffff"/>
+<text x="239" y="261.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">children mount only</text>
+<rect x="236" y="266" width="154.2" height="16.25" fill="#ffffff"/>
+<text x="239" y="278" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">once a token exists</text>
+<path d="M 225 354 L 225 408" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 225 470 L 225 524" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="236" y="481.75" width="154.2" height="16.25" fill="#ffffff"/>
+<text x="239" y="493.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">page, page_size=12,</text>
+<rect x="236" y="498" width="68.4" height="16.25" fill="#ffffff"/>
+<text x="239" y="510" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">location</text>
+<path d="M 225 586 L 225 640" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 225 702 L 225 756" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="236" y="713.75" width="115.2" height="16.25" fill="#ffffff"/>
+<text x="239" y="725.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">Authorization:</text>
+<rect x="236" y="730" width="123" height="16.25" fill="#ffffff"/>
+<text x="239" y="742" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">Bearer &lt;access&gt;</text>
+<path d="M 225 818 L 225 872" fill="none" stroke="#2f9e44" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="236" y="829.75" width="45" height="16.25" fill="#ffffff"/>
+<text x="239" y="841.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#2f9e44">200 →</text>
+<rect x="236" y="846" width="146.4" height="16.25" fill="#ffffff"/>
+<text x="239" y="858" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#2f9e44">Paginated&lt;Product&gt;</text>
+<path d="M 390 787 L 436 787 L 436 439 L 500 439" fill="none" stroke="#e03131" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="389" y="599.875" width="29.4" height="16.25" fill="#ffffff"/>
+<text x="392" y="611.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#e03131">401</text>
+<path d="M 670 470 L 670 524" fill="none" stroke="#e03131" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 670 586 L 670 640" fill="none" stroke="#2f9e44" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="681" y="605.875" width="29.4" height="16.25" fill="#ffffff"/>
+<text x="684" y="617.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#2f9e44">200</text>
+<path d="M 840 555 L 886 555 L 886 787 L 840 787" fill="none" stroke="#e03131" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="891" y="657.875" width="29.4" height="16.25" fill="#ffffff"/>
+<text x="894" y="669.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#e03131">401</text>
+<path d="M 670 818 L 670 872" fill="none" stroke="#e03131" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 500 671 L 436 671 L 436 671 L 390 671" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="405" y="641.875" width="99.6" height="16.25" fill="#ffffff"/>
+<text x="408" y="653.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1971c2">retried once</text>
+<text x="60" y="1031" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">A 401 is replayed exactly once, never in a loop. Refresh is single-flight because the API sets</text>
+<text x="60" y="1047.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">ROTATE_REFRESH_TOKENS=True: spending the same refresh token twice would invalidate a live session, so</text>
+<text x="60" y="1063.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">concurrent 401s must share one refresh call.</text>
+</svg>
