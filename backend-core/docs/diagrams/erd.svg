@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="32 8 1096 893.75" width="1096" height="894" role="img" aria-label="Three tables: auth_user, products_product and orders_order, with orders_order holding protected foreign keys to both.">
+<title>Three tables: auth_user, products_product and orders_order, with orders_order holding protected foreign keys to both.</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke"/></marker></defs>
+<rect x="32" y="8" width="1096" height="893.75" fill="#ffffff"/>
+<text x="60" y="48" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e">backend-core — database schema</text>
+<rect x="60" y="80" width="300" height="174" rx="8" fill="#ffffff" stroke="#1971c2" stroke-width="2"/>
+<path d="M 60 114 h 300" stroke="#1971c2" stroke-width="1"/>
+<path d="M 61 88 q 0 -7 7 -7 h 284 q 7 0 7 7 v 26 h -298 z" fill="#d0ebff"/>
+<text x="210" y="102" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1e1e1e">auth_user</text>
+<text x="72" y="133" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">id  PK</text>
+<text x="348" y="133" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">bigint</text>
+<text x="72" y="155" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">username  UQ</text>
+<text x="348" y="155" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">varchar(150)</text>
+<text x="72" y="177" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">email</text>
+<text x="348" y="177" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">varchar(254)</text>
+<text x="72" y="199" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">password</text>
+<text x="348" y="199" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">varchar(128)</text>
+<text x="72" y="221" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">is_active</text>
+<text x="348" y="221" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">bool</text>
+<text x="72" y="243" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">…django.contrib.auth</text>
+<rect x="780" y="80" width="320" height="196" rx="8" fill="#ffffff" stroke="#f08c00" stroke-width="2"/>
+<path d="M 780 114 h 320" stroke="#f08c00" stroke-width="1"/>
+<path d="M 781 88 q 0 -7 7 -7 h 304 q 7 0 7 7 v 26 h -318 z" fill="#ffec99"/>
+<text x="940" y="102" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1e1e1e">products_product</text>
+<text x="792" y="133" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">id  PK</text>
+<text x="1088" y="133" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">bigint</text>
+<text x="792" y="155" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">title</text>
+<text x="1088" y="155" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">varchar(255)</text>
+<text x="792" y="177" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">description</text>
+<text x="1088" y="177" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">longtext</text>
+<text x="792" y="199" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">price</text>
+<text x="1088" y="199" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">decimal(10,2)</text>
+<text x="792" y="221" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">location  IX</text>
+<text x="1088" y="221" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">varchar(2)</text>
+<text x="792" y="243" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">created_at</text>
+<text x="1088" y="243" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">datetime</text>
+<text x="792" y="265" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">updated_at</text>
+<text x="1088" y="265" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">datetime</text>
+<rect x="400" y="330" width="340" height="284" rx="8" fill="#ffffff" stroke="#2f9e44" stroke-width="2"/>
+<path d="M 400 364 h 340" stroke="#2f9e44" stroke-width="1"/>
+<path d="M 401 338 q 0 -7 7 -7 h 324 q 7 0 7 7 v 26 h -338 z" fill="#b2f2bb"/>
+<text x="570" y="352" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="600" fill="#1e1e1e">orders_order</text>
+<text x="412" y="383" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">id  PK</text>
+<text x="728" y="383" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">bigint</text>
+<text x="412" y="405" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">order_number  UQ IX</text>
+<text x="728" y="405" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">uuid</text>
+<text x="412" y="427" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">user_id  FK</text>
+<text x="728" y="427" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">bigint</text>
+<text x="412" y="449" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">product_id  FK</text>
+<text x="728" y="449" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">bigint</text>
+<text x="412" y="471" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">quantity</text>
+<text x="728" y="471" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">int unsigned NULL</text>
+<text x="412" y="493" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">unit_price</text>
+<text x="728" y="493" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">decimal(10,2) NULL</text>
+<text x="412" y="515" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">total_price</text>
+<text x="728" y="515" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">decimal(10,2) NULL</text>
+<text x="412" y="537" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">status</text>
+<text x="728" y="537" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">varchar(20)</text>
+<text x="412" y="559" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">idempotency_key</text>
+<text x="728" y="559" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">varchar(255) NULL</text>
+<text x="412" y="581" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">created_at</text>
+<text x="728" y="581" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">datetime</text>
+<text x="412" y="603" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1e1e1e">UQ (user_id, idempotency_key)</text>
+<path d="M 400 472 L 300 364 L 300 300 L 210 300 L 210 254" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="127" y="368.625" width="177.6" height="16.25" fill="#ffffff"/>
+<text x="130" y="380.625" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1971c2">user_id → auth_user.id</text>
+<rect x="127" y="384.875" width="138.6" height="16.25" fill="#ffffff"/>
+<text x="130" y="396.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1971c2">on_delete=PROTECT</text>
+<rect x="127" y="401.125" width="169.8" height="16.25" fill="#ffffff"/>
+<text x="130" y="413.125" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1971c2">related_name="orders"</text>
+<path d="M 740 472 L 840 364 L 840 300 L 940 300 L 940 276" fill="none" stroke="#f08c00" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="797" y="368.625" width="255.6" height="16.25" fill="#ffffff"/>
+<text x="800" y="380.625" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#f08c00">product_id → products_product.id</text>
+<rect x="797" y="384.875" width="138.6" height="16.25" fill="#ffffff"/>
+<text x="800" y="396.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#f08c00">on_delete=PROTECT</text>
+<rect x="797" y="401.125" width="169.8" height="16.25" fill="#ffffff"/>
+<text x="800" y="413.125" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#f08c00">related_name="orders"</text>
+<text x="60" y="658" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">PROTECT on both keys: an order must never end up without a buyer or an item, so the delete is refused rather than cascaded.</text>
+<text x="60" y="674.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">unit_price and total_price are copied at purchase time, so editing a product later cannot rewrite what someone was charged.</text>
+<text x="60" y="690.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">order_number is a UUID, which keeps receipt URLs unguessable — and the receipt queryset is scoped to request.user, so another user</text>
+<text x="60" y="706.75" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">gets the same 404 as a stranger.</text>
+<text x="60" y="748" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">The unique constraint on (user_id, idempotency_key) is what makes purchases idempotent: a retry cannot insert a second order under</text>
+<text x="60" y="764.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">the same key, not even concurrently. The header is required, so nothing new is written without a key; the column stays nullable only</text>
+<text x="60" y="780.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">because rows created before the change have NULL, and inventing keys for them would put fiction in the database.</text>
+<text x="60" y="838" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">status is one of PENDING | COMPLETED | FAILED. Orders are created COMPLETED (the model default) because a purchase settles</text>
+<text x="60" y="854.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">synchronously; the other two are there for a future payment step. accounts/ defines no model — AUTH_USER_MODEL is Django's built-in</text>
+<text x="60" y="870.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">User.</text>
+</svg>

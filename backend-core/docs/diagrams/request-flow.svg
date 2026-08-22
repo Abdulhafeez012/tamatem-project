@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 -12 878 1572.5" width="878" height="1573" role="img" aria-label="An HTTP request routed through config.urls, api.urls and api.v1.urls into a DRF generic view, past JWT authentication and the IsAuthenticated permission, through a serializer and the ORM to MySQL.">
+<title>An HTTP request routed through config.urls, api.urls and api.v1.urls into a DRF generic view, past JWT authentication and the IsAuthenticated permission, through a serializer and the ORM to MySQL.</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke"/></marker></defs>
+<rect x="10" y="-12" width="878" height="1572.5" fill="#ffffff"/>
+<text x="38" y="28" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e">backend-core — request / response flow</text>
+<rect x="38" y="152" width="384" height="412" rx="10" fill="none" stroke="#868e96" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="50" y="172" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#868e96">routing</text>
+<rect x="38" y="572" width="384" height="552" rx="10" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="50" y="592" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#2f9e44">DRF pipeline</text>
+<rect x="478" y="432" width="374" height="692" rx="10" fill="none" stroke="#6741d9" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="490" y="452" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6741d9">orders/purchase/ — the write path</text>
+<rect x="60" y="60" width="340" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="230" y="86.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">HTTP request</text>
+<text x="230" y="110.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">Authorization: Bearer &lt;access&gt;</text>
+<rect x="60" y="200" width="340" height="62" rx="8" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<text x="230" y="226.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">config/urls.py</text>
+<text x="230" y="250.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">/admin/ /swagger/ /redoc/ /api/</text>
+<rect x="60" y="340" width="340" height="62" rx="8" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<text x="230" y="366.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">api/urls.py</text>
+<text x="230" y="390.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">path('v1/', …) — the version seam</text>
+<rect x="60" y="480" width="340" height="62" rx="8" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<text x="230" y="506.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">api/v1/urls.py</text>
+<text x="230" y="530.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">auth/ | products/ | orders/</text>
+<rect x="60" y="620" width="340" height="62" rx="8" fill="#ffc9c9" stroke="#e03131" stroke-width="2"/>
+<text x="230" y="646.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">JWTAuthentication</text>
+<text x="230" y="670.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">simplejwt — decodes the bearer token</text>
+<rect x="60" y="760" width="340" height="62" rx="8" fill="#ffc9c9" stroke="#e03131" stroke-width="2"/>
+<text x="230" y="786.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">IsAuthenticated</text>
+<text x="230" y="810.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">DRF default for every endpoint</text>
+<rect x="60" y="900" width="340" height="62" rx="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="230" y="926.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">generic view</text>
+<text x="230" y="950.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">List / Retrieve / Create — one verb each</text>
+<rect x="60" y="1040" width="340" height="62" rx="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="230" y="1066.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">serializer</text>
+<text x="230" y="1090.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">validate in, shape out</text>
+<rect x="60" y="1180" width="340" height="62" rx="8" fill="#ffec99" stroke="#f08c00" stroke-width="2"/>
+<text x="230" y="1206.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">model / ORM</text>
+<text x="230" y="1230.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">products.Product · orders.Order</text>
+<ellipse cx="230" cy="1364" rx="130" ry="38" fill="#ffec99" stroke="#f08c00" stroke-width="2"/>
+<text x="230" y="1359.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">MySQL 8.4</text>
+<text x="230" y="1383.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">container app-db</text>
+<rect x="500" y="480" width="330" height="62" rx="8" fill="#ffc9c9" stroke="#e03131" stroke-width="2"/>
+<text x="665" y="506.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">Idempotency-Key (required)</text>
+<text x="665" y="530.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">seen before → 200 + replay</text>
+<rect x="500" y="620" width="330" height="62" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="665" y="646.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">transaction.atomic()</text>
+<text x="665" y="670.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">api/v1/orders/views.py</text>
+<rect x="500" y="760" width="330" height="62" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="665" y="786.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">select_for_update()</text>
+<text x="665" y="810.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">row lock on the product</text>
+<rect x="500" y="900" width="330" height="62" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="665" y="926.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">snapshot the price</text>
+<text x="665" y="950.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">unit_price = total_price = price</text>
+<rect x="500" y="1040" width="330" height="62" rx="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="665" y="1066.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">201 Created</text>
+<text x="665" y="1090.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">UUID order_number, status COMPLETED</text>
+<path d="M 230 122 L 230 200" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 230 262 L 230 340" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="241" y="293.875" width="154.2" height="16.25" fill="#ffffff"/>
+<text x="244" y="305.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">include('api.urls')</text>
+<path d="M 230 402 L 230 480" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 230 542 L 230 620" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 230 682 L 230 760" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 230 822 L 230 900" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 230 962 L 230 1040" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 230 1102 L 230 1180" fill="none" stroke="#1e1e1e" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 230 1242 L 230 1326" fill="none" stroke="#f08c00" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="241" y="1276.875" width="29.4" height="16.25" fill="#ffffff"/>
+<text x="244" y="1288.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#f08c00">SQL</text>
+<path d="M 60 651 L 14 654 L 14 794 L 60 791" fill="none" stroke="#e03131" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ah)"/>
+<rect x="-179" y="704.75" width="99.6" height="16.25" fill="#ffffff"/>
+<text x="-176" y="716.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#e03131">401 on a bad</text>
+<rect x="-179" y="721" width="130.8" height="16.25" fill="#ffffff"/>
+<text x="-176" y="733" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#e03131">or missing token</text>
+<path d="M 400 931 L 446 934 L 446 514 L 500 511" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="403" y="708.75" width="37.2" height="16.25" fill="#ffffff"/>
+<text x="406" y="720.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6741d9">POST</text>
+<rect x="403" y="725" width="68.4" height="16.25" fill="#ffffff"/>
+<text x="406" y="737" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6741d9">purchase</text>
+<path d="M 665 542 L 665 620" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="676" y="573.875" width="60.6" height="16.25" fill="#ffffff"/>
+<text x="679" y="585.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6741d9">new key</text>
+<path d="M 665 682 L 665 760" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 665 822 L 665 900" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M 665 962 L 665 1040" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#ah)"/>
+<text x="60" y="1513" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">The domain apps hold models only; every serializer, view, route, filter and paginator lives under</text>
+<text x="60" y="1529.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">api/v1/&lt;domain&gt;/. Adding /api/v2/ means a new package beside v1 — no model change.</text>
+<text x="500" y="1199" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">The lock plus the atomic block make two</text>
+<text x="500" y="1215.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">simultaneous purchases of the same product</text>
+<text x="500" y="1231.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">serialise. The Idempotency-Key makes a</text>
+<text x="500" y="1247.75" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">retry safe: a repeat returns the original</text>
+<text x="500" y="1264" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">order rather than placing a second one,</text>
+<text x="500" y="1280.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">enforced by a unique constraint so even a</text>
+<text x="500" y="1296.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">concurrent retry cannot slip through.</text>
+</svg>
