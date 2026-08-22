@@ -1,0 +1,225 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-family);
+  --font-mono: var(--font-mono-family);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+}
+
+/*
+ * Every colour used anywhere is a variable, including the ones the component
+ * layer below needs. Hardcoding oklch literals in @layer components is what
+ * made the header, hero and selection colours immune to theme switching.
+ */
+:root {
+  color-scheme: light;
+
+  --background: oklch(0.965 0.018 88);
+  --foreground: oklch(0.19 0.025 255);
+  --card: oklch(0.985 0.01 88);
+  --card-foreground: oklch(0.19 0.025 255);
+  --popover: oklch(0.985 0.01 88);
+  --popover-foreground: oklch(0.19 0.025 255);
+  --primary: oklch(0.48 0.19 263);
+  --primary-foreground: oklch(0.98 0.01 88);
+  --secondary: oklch(0.91 0.025 88);
+  --secondary-foreground: oklch(0.19 0.025 255);
+  --muted: oklch(0.91 0.025 88);
+  --muted-foreground: oklch(0.48 0.03 255);
+  --accent: oklch(0.73 0.16 38);
+  --accent-foreground: oklch(0.19 0.025 255);
+  --destructive: oklch(0.58 0.2 25);
+  --border: oklch(0.19 0.025 255 / 18%);
+  --input: oklch(0.19 0.025 255 / 26%);
+  --ring: oklch(0.48 0.19 263);
+
+  --font-body: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-display-family: 'Arial Narrow', 'Geist', ui-sans-serif, sans-serif;
+  --font-mono-family: 'Geist Mono', ui-monospace, monospace;
+
+  /* Chrome tokens — the header is intentionally dark in both themes. */
+  --header-bg: oklch(0.13 0.04 264);
+  --header-fg: oklch(0.98 0.01 88);
+  --header-nav: oklch(0.88 0.02 88);
+  --header-nav-hover: oklch(0.78 0.16 185);
+  --brand-bg: oklch(0.78 0.16 185);
+  --brand-fg: oklch(0.13 0.04 264);
+  --cta-bg: oklch(0.78 0.16 185);
+  --cta-fg: oklch(0.13 0.04 264);
+  --cta-bg-hover: oklch(0.72 0.16 38);
+
+  --hero-from: oklch(0.16 0.06 264);
+  --hero-via: oklch(0.29 0.12 264);
+  --hero-to: oklch(0.23 0.1 190);
+  --hero-fg: oklch(0.98 0.01 88);
+
+  --grid-line: oklch(0.19 0.025 255 / 3%);
+  --selection-bg: oklch(0.73 0.16 38 / 55%);
+  --selection-fg: oklch(0.19 0.025 255);
+}
+
+.dark {
+  /* Without this, native scrollbars and form controls stay light. */
+  color-scheme: dark;
+
+  --background: oklch(0.17 0.02 262);
+  --foreground: oklch(0.95 0.012 88);
+  --card: oklch(0.215 0.025 262);
+  --card-foreground: oklch(0.95 0.012 88);
+  --popover: oklch(0.215 0.025 262);
+  --popover-foreground: oklch(0.95 0.012 88);
+  --primary: oklch(0.72 0.15 258);
+  --primary-foreground: oklch(0.15 0.02 262);
+  --secondary: oklch(0.28 0.03 262);
+  --secondary-foreground: oklch(0.95 0.012 88);
+  --muted: oklch(0.27 0.025 262);
+  --muted-foreground: oklch(0.74 0.022 262);
+  --accent: oklch(0.78 0.16 45);
+  --accent-foreground: oklch(0.16 0.02 262);
+  --destructive: oklch(0.7 0.19 25);
+  --border: oklch(0.95 0.012 88 / 16%);
+  --input: oklch(0.95 0.012 88 / 26%);
+  --ring: oklch(0.72 0.15 258);
+
+  --header-bg: oklch(0.115 0.025 264);
+  --header-fg: oklch(0.96 0.012 88);
+  --header-nav: oklch(0.8 0.02 88);
+  --header-nav-hover: oklch(0.8 0.15 185);
+  --brand-bg: oklch(0.8 0.15 185);
+  --brand-fg: oklch(0.12 0.025 264);
+  --cta-bg: oklch(0.8 0.15 185);
+  --cta-fg: oklch(0.12 0.025 264);
+  --cta-bg-hover: oklch(0.78 0.16 45);
+
+  --hero-from: oklch(0.14 0.05 264);
+  --hero-via: oklch(0.25 0.1 264);
+  --hero-to: oklch(0.21 0.09 190);
+  --hero-fg: oklch(0.96 0.012 88);
+
+  /* The light grid-line is invisible on a dark ground. */
+  --grid-line: oklch(0.95 0.012 88 / 5%);
+  --selection-bg: oklch(0.78 0.16 45 / 45%);
+  --selection-fg: oklch(0.15 0.02 262);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    background: var(--background);
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  button,
+  a {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display-family);
+  }
+  .eyebrow {
+    @apply font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary;
+  }
+  .nav-link {
+    @apply px-2 py-2 text-sm font-bold text-muted-foreground transition hover:text-primary;
+  }
+
+  .field-label {
+    @apply flex flex-col gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em];
+  }
+  .field-label input {
+    @apply h-12 border border-input bg-transparent px-3 font-sans text-sm normal-case tracking-normal outline-none transition focus:border-primary focus:ring-1 focus:ring-primary;
+  }
+  .field-label input[aria-invalid='true'] {
+    @apply border-destructive focus:border-destructive focus:ring-destructive;
+  }
+  .field-error {
+    @apply flex flex-col gap-1 font-sans text-xs font-medium normal-case tracking-normal text-destructive;
+  }
+
+  .site-header {
+    background: var(--header-bg);
+    color: var(--header-fg);
+  }
+  .site-header .nav-link {
+    color: var(--header-nav);
+  }
+  .site-header .nav-link:hover {
+    color: var(--header-nav-hover);
+  }
+  .brand-mark {
+    @apply flex shrink-0 items-center gap-3;
+    color: var(--header-fg);
+  }
+  .brand-icon {
+    @apply grid size-10 place-items-center rounded-full;
+    background: var(--brand-bg);
+    color: var(--brand-fg);
+  }
+  .header-cta {
+    @apply flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition;
+    background: var(--cta-bg);
+    color: var(--cta-fg);
+  }
+  .header-cta:hover {
+    background: var(--cta-bg-hover);
+  }
+
+  .store-hero {
+    @apply overflow-hidden rounded-[28px] border border-border;
+    background: linear-gradient(110deg, var(--hero-from), var(--hero-via) 62%, var(--hero-to));
+    color: var(--hero-fg);
+  }
+
+  .category-pill {
+    @apply rounded-full border border-border bg-card px-4 py-2 text-xs font-bold transition hover:border-primary hover:text-primary;
+  }
+  .category-pill[aria-pressed='true'] {
+    @apply border-primary bg-primary text-primary-foreground hover:text-primary-foreground;
+  }
+
+  .status-chip {
+    @apply inline-flex items-center gap-2 border border-accent/50 bg-accent/15 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-accent-foreground;
+  }
+  .dark .status-chip {
+    @apply text-accent;
+  }
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}

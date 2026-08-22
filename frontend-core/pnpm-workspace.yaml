@@ -1,0 +1,8 @@
+overrides:
+  # Pin carried over from the original scaffold (transitive dep of `shadcn`).
+  # pnpm 11 no longer reads the `pnpm.overrides` field in package.json.
+  hono: 4.12.25
+
+allowBuilds:
+  # Transitive dev dependency of `shadcn`; its postinstall script is not needed.
+  msw: false
