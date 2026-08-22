@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 -10 1126 731.75" width="1126" height="732" role="img" aria-label="The browser runs the Next.js app on port 3000 and calls the Django API on port 8000 directly; Django talks to MySQL inside the Docker network.">
+<title>The browser runs the Next.js app on port 3000 and calls the Django API on port 8000 directly; Django talks to MySQL inside the Docker network.</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke"/></marker></defs>
+<rect x="12" y="-10" width="1126" height="731.75" fill="#ffffff"/>
+<text x="40" y="30" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#1e1e1e">How frontend-core and backend-core communicate</text>
+<rect x="48" y="62" width="384" height="402" rx="10" fill="none" stroke="#1971c2" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="60" y="82" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1971c2">the user's browser</text>
+<rect x="628" y="102" width="464" height="340" rx="10" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="640" y="122" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#2f9e44">docker compose — network app-network</text>
+<rect x="70" y="110" width="340" height="62" rx="8" fill="#d0ebff" stroke="#1971c2" stroke-width="2"/>
+<text x="240" y="136.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">Next.js app</text>
+<text x="240" y="160.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">localhost:3000 — client components</text>
+<rect x="70" y="230" width="340" height="62" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2"/>
+<text x="240" y="256.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">localStorage</text>
+<text x="240" y="280.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">'market_session' — access + refresh</text>
+<rect x="70" y="380" width="340" height="62" rx="8" fill="#f1f3f5" stroke="#868e96" stroke-width="2"/>
+<text x="240" y="406.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">Next.js server</text>
+<text x="240" y="430.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">renders shells only, never the API</text>
+<rect x="650" y="150" width="420" height="62" rx="8" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2"/>
+<text x="860" y="176.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">Django + DRF</text>
+<text x="860" y="200.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">app container — localhost:8000</text>
+<ellipse cx="860" cy="375" rx="160" ry="45" fill="#ffec99" stroke="#f08c00" stroke-width="2"/>
+<text x="860" y="370.875" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#1e1e1e">MySQL 8.4</text>
+<text x="860" y="394.875" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">app-db — host 3307 → 3306</text>
+<path d="M 410 141 L 525 141 L 525 181 L 650 181" fill="none" stroke="#2f9e44" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="452.5" y="109.75" width="193.2" height="16.25" fill="#ffffff"/>
+<text x="455.5" y="121.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#2f9e44">fetch /api/v1/… + Bearer</text>
+<rect x="452.5" y="126" width="193.2" height="16.25" fill="#ffffff"/>
+<text x="455.5" y="138" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#2f9e44">NEXT_PUBLIC_API_BASE_URL</text>
+<path d="M 860 212 L 860 290 L 525 290 L 525 161 L 410 141" fill="none" stroke="#1971c2" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="579.5" y="228.75" width="154.2" height="16.25" fill="#ffffff"/>
+<text x="582.5" y="240.75" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1971c2">JSON + CORS headers</text>
+<rect x="579.5" y="245" width="162" height="16.25" fill="#ffffff"/>
+<text x="582.5" y="257" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#1971c2">CORS_ALLOWED_ORIGINS</text>
+<path d="M 240 172 L 240 230" fill="none" stroke="#6741d9" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="249" y="193.875" width="154.2" height="16.25" fill="#ffffff"/>
+<text x="252" y="205.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#6741d9">read / write tokens</text>
+<path d="M 860 212 L 860 330" fill="none" stroke="#f08c00" stroke-width="2" marker-end="url(#ah)"/>
+<rect x="871" y="263.875" width="162" height="16.25" fill="#ffffff"/>
+<text x="874" y="275.875" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#f08c00">DATABASE_HOST=app-db</text>
+<text x="40" y="543" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">The token never reaches the Next.js server: it lives in localStorage and is attached in the browser. That keeps the credential off the</text>
+<text x="40" y="559.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">server, and it is also why every page that touches the API is a client component — server components cannot read localStorage.</text>
+<text x="40" y="658" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">Two independent processes, so both components of the origin contract have to agree: the browser must call the origin in</text>
+<text x="40" y="674.25" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">NEXT_PUBLIC_API_BASE_URL, and that origin must appear in CORS_ALLOWED_ORIGINS on the Django side. MySQL is reachable from the host on</text>
+<text x="40" y="690.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5c5f66">3307 for a GUI client, but the app container reaches it as app-db:3306.</text>
+</svg>
