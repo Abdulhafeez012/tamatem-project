@@ -29,13 +29,15 @@ Django admin is at `/admin/`.
 
 ![How a request travels from HTTP through routing, JWT authentication, the permission check, a DRF generic view and a serializer into the ORM and MySQL, with the purchase write path branching off](docs/diagrams/request-flow.svg)
 
-<sub>Editable source: [`docs/diagrams/request-flow.excalidraw`](docs/diagrams/request-flow.excalidraw) — see [Diagrams](#diagrams).</sub>
+Editable source: [`docs/diagrams/request-flow.excalidraw`](docs/diagrams/request-flow.excalidraw) — see [Diagrams](#diagrams).
 
+```
 Every authenticated request carries `Authorization: Bearer <access>`.
 `JWTAuthentication` is the project-wide default authentication class and
 `IsAuthenticated` the project-wide default permission, so an endpoint is
 protected unless it explicitly opts out with `AllowAny` — the three auth
 endpoints are the only ones that do.
+```
 ---
 
 ## API Documentation
@@ -48,7 +50,7 @@ Source: [`docs/API Documentation.json`](docs/API%20Documentation.json) — see [
 
 ![Entity relationship diagram showing auth_user, products_product and orders_order, with orders_order holding protected foreign keys to both](docs/diagrams/erd.svg)
 
-<sub>Editable source: [`docs/diagrams/erd.excalidraw`](docs/diagrams/erd.excalidraw)</sub>
+Editable source: [`docs/diagrams/erd.excalidraw`](docs/diagrams/erd.excalidraw)
 
 ### `products_product` — `products/models.py`
 
